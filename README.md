@@ -25,6 +25,8 @@ There is no need to export toy model in `train.py`, as it creates limited vocabu
 ```
 Loading word2vec model
 Loading datafiles
+positive examples: 17503
+negative examples: 56105
 Building vocabulary
 Constructing embedding matrix
 Preparing model inputs
