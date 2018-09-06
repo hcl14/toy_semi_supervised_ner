@@ -6,10 +6,10 @@ Here I experiment just for fun, creating semi-supervised method to perform train
 The goal is to deal with the problem of the lack of supervised data for training NER models. Two most known datasets are CONLL2003 (~4 MB) and WNUT-17 (2.3 mb) [1](https://github.com/davidsbatista/NER-datasets). Also, which is more important, it is almost impossible to find supervised training data for specific domain (medical, twitter, etc). Using Amazon Mechanical Turk authors of this paper [2] (Annotating Large Email Datasets for Named Entity Recognition with Mechanical Turk: http://www.aclweb.org/anthology/W10-0712) managed to collect 8mb dataset after 4 months, thus creating own dataset is long and expensive.<br>
 The main assumption behind the usage of such small datasets is that word embeddings should capture contextual information, so the features indicating particular word being an enitity should be somehow encoded in the embeddings. Thus training model on a small dataset is just a sort of a training new simple classifier over existing embeddings and should not require much data. However, perhaps existing 3-8mb datasets are insufiicient for capturing all the information. <br>
 
-The idea of this toy model is the following: all the named entities of some type (`Company` only at the moment) should have something in common in the context where they appear, so even the one who does not know such a company, may deduce that this is a company name in text. Thus, by providing lists of companies, persons, etc I try to create context embeddings using surrounding words in the chosen coropra, and train classifier for them. After that, another named entity, which did not occur during training, should be correctly classified by its context in this text domain. <br>
+The idea of this toy model is the following: all the named entities of some type (`Company` only at the moment) should have something in common in the context where they appear, so even the one who does not know such a company, may deduce that this is a company name in text. Thus, by providing lists of companies, persons, etc I try to create context embeddings using surrounding words in the chosen corpora, and train classifier for them. After that, another named entity, which did not occur during training, should be correctly classified by its context in this text domain. <br>
 
 
-Training data is scraped from Wikipedia using the list of companies. Article about the company is being scanned, sentences containing company name are split into two parts which are being fed into two biLSTMs with summarizing layer above them. To feed data into the model, I use GoogleNews word2vec embeddings [3](https://github.com/mmihaltz/word2vec-GoogleNews-vectors). Please edit the code in `train.py` and set path. Negative examples are created by splitting the sentences, which does not contain company name, at random word. The resulting training dataset is about 11 MB.
+Training data is scraped from Wikipedia using the list of companies. Article about the company is being scanned, sentences containing company name are split into two parts which are being fed into two biLSTMs with summarizing layer above them. To feed data into the model, I use GoogleNews word2vec embeddings [3](https://github.com/mmihaltz/word2vec-GoogleNews-vectors). Zero embeddings are used for unknown words. Please edit the code in `train.py` and set path. Negative examples are created by splitting the sentences, which does not contain company name, at random word. The resulting training dataset is about 11 MB.
 
 ## Requirements
 
@@ -18,7 +18,7 @@ Python 3, Keras framework.
 
 ## Output
 
-There is no need to export toy model in `train.py`, as it creates limited vocabulary matrix from the dataset. You can train it in the python shell and play a bit by feeding different sentences to it:
+There is no need to export toy model in `train.py`, as it creates limited vocabulary matrix from the dataset. The quality is of course very low, but this idea of context capturing can be used as a part for something bigger. You can train it in the python shell and play a bit by evaluating different sentences:
 
 `$python3 -i train.py`
 
