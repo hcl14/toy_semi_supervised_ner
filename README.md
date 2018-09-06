@@ -33,26 +33,27 @@ Preparing model inputs
 vocab_size: 57393
 max_len: 15
 
+Train on 66247 samples, validate on 7361 samples
 Epoch 1/5
-66247/66247 [==============================] - 114s 2ms/step - loss: 0.3813 - acc: 0.8422 - val_loss: 0.3317 - val_acc: 0.8643
+66247/66247 [==============================] - 122s 2ms/step - loss: 0.3649 - acc: 0.8486 - val_loss: 0.3208 - val_acc: 0.8730
 
-Epoch 00001: val_loss improved from inf to 0.33167, saving model to models/model-best.hdf5
+Epoch 00001: val_loss improved from inf to 0.32082, saving model to models/model-best.hdf5
 Epoch 2/5
-66247/66247 [==============================] - 111s 2ms/step - loss: 0.3017 - acc: 0.8754 - val_loss: 0.3146 - val_acc: 0.8716
+66247/66247 [==============================] - 120s 2ms/step - loss: 0.3011 - acc: 0.8771 - val_loss: 0.2875 - val_acc: 0.8859
 
-Epoch 00002: val_loss improved from 0.33167 to 0.31464, saving model to models/model-best.hdf5
+Epoch 00002: val_loss improved from 0.32082 to 0.28752, saving model to models/model-best.hdf5
 Epoch 3/5
-66247/66247 [==============================] - 112s 2ms/step - loss: 0.2543 - acc: 0.8971 - val_loss: 0.2865 - val_acc: 0.8872
+66247/66247 [==============================] - 123s 2ms/step - loss: 0.2568 - acc: 0.8980 - val_loss: 0.2816 - val_acc: 0.8833
 
-Epoch 00003: val_loss improved from 0.31464 to 0.28650, saving model to models/model-best.hdf5
+Epoch 00003: val_loss improved from 0.28752 to 0.28160, saving model to models/model-best.hdf5
 Epoch 4/5
-66247/66247 [==============================] - 114s 2ms/step - loss: 0.2059 - acc: 0.9196 - val_loss: 0.2913 - val_acc: 0.8902
+66247/66247 [==============================] - 123s 2ms/step - loss: 0.2144 - acc: 0.9169 - val_loss: 0.2758 - val_acc: 0.8943
 
-Epoch 00004: val_loss did not improve from 0.28650
+Epoch 00004: val_loss improved from 0.28160 to 0.27575, saving model to models/model-best.hdf5
 Epoch 5/5
-66247/66247 [==============================] - 117s 2ms/step - loss: 0.1553 - acc: 0.9425 - val_loss: 0.3103 - val_acc: 0.8915
+66247/66247 [==============================] - 122s 2ms/step - loss: 0.1721 - acc: 0.9354 - val_loss: 0.2821 - val_acc: 0.8905
 
-Epoch 00005: val_loss did not improve from 0.28650
+Epoch 00005: val_loss did not improve from 0.27575
 
 >>> ner(['we','sued','THECORP','for','million','dollars'])
 we(True)

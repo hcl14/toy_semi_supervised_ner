@@ -1,6 +1,6 @@
 from keras import Model
 from keras.callbacks import ModelCheckpoint
-from keras.layers import Dense, Flatten, Dot
+from keras.layers import Dense, Flatten, Dot, Concatenate, Dropout
 from keras.layers.embeddings import Embedding
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
@@ -25,9 +25,9 @@ NEGATIVE_EXAMPLES = 'negative.txt'
 
 MAX_LEN = 15 # max amount of surrounding words
 
-EMBED_SIZE = 64
+EMBED_SIZE = 64 # parameter to qickly change many sizes in network
 BATCH_SIZE = 32
-NBR_EPOCHS = 5
+NBR_EPOCHS = 7
 
 
 print('Loading word2vec model')
@@ -142,27 +142,35 @@ print('max_len: {}'.format(seq_maxlen))
 left_enc = Sequential()
 left_enc.add(Embedding(output_dim=WORD2VEC_EMBED_SIZE, input_dim=vocab_size,
                    input_length=seq_maxlen, weights=[embedding_matrix], trainable=False))
-left_enc.add(Bidirectional(LSTM(EMBED_SIZE, return_sequences=True), 
+
+left_enc.add(Dropout(0.2))
+
+left_enc.add(Bidirectional(LSTM(EMBED_SIZE*2, return_sequences=True), 
                        merge_mode="sum"))
 
-left_enc.add(Convolution1D(EMBED_SIZE // 2, 5, padding="valid",activation='relu'))
+left_enc.add(Convolution1D(EMBED_SIZE, 3, padding="valid",activation='relu'))
 left_enc.add(MaxPooling1D(pool_size=2, padding="valid"))
 
 # right part
 right_enc = Sequential()
 right_enc.add(Embedding(output_dim=WORD2VEC_EMBED_SIZE, input_dim=vocab_size,
                    input_length=seq_maxlen, weights=[embedding_matrix], trainable=False))
-right_enc.add(Bidirectional(LSTM(EMBED_SIZE, return_sequences=True),
+
+right_enc.add(Dropout(0.2))
+
+right_enc.add(Bidirectional(LSTM(EMBED_SIZE*2, return_sequences=True),
                        merge_mode="sum"))
-right_enc.add(Convolution1D(EMBED_SIZE // 2, 5, padding="valid",activation='relu'))
+right_enc.add(Convolution1D(EMBED_SIZE, 3, padding="valid",activation='relu'))
 right_enc.add(MaxPooling1D(pool_size=2, padding="valid"))
 
 
 # summarizing
 
-attOut = Dot(axes=1)([left_enc.output, right_enc.output]) 
+attOut = Concatenate(axis=-1)([left_enc.output, right_enc.output]) 
 attOut = Flatten()(attOut) #shape is now only (samples,)
-attOut = Dense((left_enc.output_shape[1]*(EMBED_SIZE // 2)),activation='tanh')(attOut)
+attOut = Dense(EMBED_SIZE // 2,activation='tanh')(attOut)
+
+Out = Dense((2),activation='softmax')(attOut)
 
 Out = Dense((2),activation='softmax')(attOut)
 
@@ -171,6 +179,7 @@ model = Model([left_enc.input,right_enc.input],Out)
 model.compile(optimizer="nadam", loss="binary_crossentropy",
 metrics=["accuracy"])
 
+model.summary()
 
 checkpoint = ModelCheckpoint(
     filepath=os.path.join(MODEL_DIR, "model-best.hdf5"),
