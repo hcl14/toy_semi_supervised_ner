@@ -21,7 +21,7 @@ Python 3, Keras framework.
 
 ## Output
 
-There is no need to export toy model in `train.py`, as it creates limited vocabulary matrix from the dataset. The quality is of course very low, but this idea of context capturing can be used as a part for something bigger. You can train it in the python shell and play a bit by evaluating different sentences:
+There is no need to export toy model in `train.py`, as it creates limited vocabulary matrix from the dataset. The quality is of course **very** low, but this idea of context capturing can be used as a part for something bigger. You can train it in the python shell and play a bit by evaluating different sentences:
 
 `$python3 -i train.py`
 
@@ -37,26 +37,59 @@ vocab_size: 57393
 max_len: 15
 
 Train on 66247 samples, validate on 7361 samples
-Epoch 1/5
-66247/66247 [==============================] - 216s 3ms/step - loss: 0.2924 - acc: 0.8784 - val_loss: 0.2060 - val_acc: 0.9160
+Epoch 1/7
+66247/66247 [==============================] - 211s 3ms/step - loss: 0.2955 - acc: 0.8771 - val_loss: 0.2347 - val_acc: 0.8995
 
-Epoch 00001: val_loss improved from inf to 0.20600, saving model to models/model-best.hdf5
-Epoch 2/5
-66247/66247 [==============================] - 237s 4ms/step - loss: 0.1597 - acc: 0.9363 - val_loss: 0.1553 - val_acc: 0.9414
+Epoch 00001: val_loss improved from inf to 0.23466, saving model to models/model-best.hdf5
+Epoch 2/7
+66247/66247 [==============================] - 216s 3ms/step - loss: 0.1573 - acc: 0.9373 - val_loss: 0.1176 - val_acc: 0.9554
 
-Epoch 00002: val_loss improved from 0.20600 to 0.15532, saving model to models/model-best.hdf5
-Epoch 3/5
-66247/66247 [==============================] - 258s 4ms/step - loss: 0.0963 - acc: 0.9637 - val_loss: 0.1063 - val_acc: 0.9591
+Epoch 00002: val_loss improved from 0.23466 to 0.11764, saving model to models/model-best.hdf5
+Epoch 3/7
+66247/66247 [==============================] - 218s 3ms/step - loss: 0.0881 - acc: 0.9676 - val_loss: 0.0830 - val_acc: 0.9686
 
-Epoch 00003: val_loss improved from 0.15532 to 0.10628, saving model to models/model-best.hdf5
-Epoch 4/5
-66247/66247 [==============================] - 257s 4ms/step - loss: 0.0636 - acc: 0.9772 - val_loss: 0.0694 - val_acc: 0.9753
+Epoch 00003: val_loss improved from 0.11764 to 0.08302, saving model to models/model-best.hdf5
+Epoch 4/7
+66247/66247 [==============================] - 219s 3ms/step - loss: 0.0576 - acc: 0.9802 - val_loss: 0.0696 - val_acc: 0.9761
 
-Epoch 00004: val_loss improved from 0.10628 to 0.06942, saving model to models/model-best.hdf5
-Epoch 5/5
-66247/66247 [==============================] - 259s 4ms/step - loss: 0.0456 - acc: 0.9841 - val_loss: 0.0644 - val_acc: 0.9802
+Epoch 00004: val_loss improved from 0.08302 to 0.06955, saving model to models/model-best.hdf5
+Epoch 5/7
+66247/66247 [==============================] - 219s 3ms/step - loss: 0.0438 - acc: 0.9851 - val_loss: 0.0577 - val_acc: 0.9803
 
-Epoch 00005: val_loss improved from 0.06942 to 0.06435, saving model to models/model-best.hdf5
+Epoch 00005: val_loss improved from 0.06955 to 0.05767, saving model to models/model-best.hdf5
+Epoch 6/7
+66247/66247 [==============================] - 219s 3ms/step - loss: 0.0347 - acc: 0.9883 - val_loss: 0.0651 - val_acc: 0.9787
 
+Epoch 00006: val_loss did not improve from 0.05767
+Epoch 7/7
+66247/66247 [==============================] - 218s 3ms/step - loss: 0.0303 - acc: 0.9900 - val_loss: 0.0631 - val_acc: 0.9803
+
+Epoch 00007: val_loss did not improve from 0.05767
+
+
+>>> ner(['thecorp', 'sued', 'us', 'for','million','dollars'])
+thecorp(True)
+sued(False)
+us(False)
+for(False)
+million(False)
+dollars(False)
+
+
+>>> ner(['we','think','msnbc','is','responsible'])
+we(False)
+think(False)
+msnbc(True)
+is(False)
+responsible(False)
+
+>>> ner(['thecorp', 'formed', 'in', '1997','from','merger'])
+thecorp(True)
+formed(False)
+in(False)
+1997(False)
+from(False)
+merger(False)
 ```
 
+Perhaps I will try to train on much bigger corpora later.

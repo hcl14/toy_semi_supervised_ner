@@ -27,7 +27,7 @@ MAX_LEN = 15 # max amount of surrounding words
 
 EMBED_SIZE = 64 # parameter to qickly change many sizes in network
 BATCH_SIZE = 32
-NBR_EPOCHS = 5
+NBR_EPOCHS = 7
 
 
 print('Loading word2vec model')
@@ -260,7 +260,8 @@ def ner(sentence):
         print('{}({})'.format(sentence[idx], prediction[0][0]>0.5))
     return predictions
         
-example = ['we','sued','thecorp','for','million','dollars']
-predictions = ner(example)
+ner(['we','sued','thecorp','for','million','dollars'])
+
+ner(['thecorp', 'formed', 'in', '1997','from','merger'])
 
 
