@@ -68,7 +68,7 @@ with open("negative.txt", "r") as f:
 print('negative examples: {}'.format(num_neg))
             
 
-# truncate buggy input
+# truncate buggy inputs
 for d in data:
     if len(d[1])> MAX_LEN: 
         d[1] = d[1][-MAX_LEN:]
@@ -158,7 +158,7 @@ right_enc.add(Convolution1D(EMBED_SIZE // 2, 5, padding="valid",activation='relu
 right_enc.add(MaxPooling1D(pool_size=2, padding="valid"))
 
 
-# attention model
+# summarizing
 
 attOut = Dot(axes=1)([left_enc.output, right_enc.output]) 
 attOut = Flatten()(attOut) #shape is now only (samples,)
@@ -180,7 +180,7 @@ model.fit([inputs_left, inputs_right], outputs, batch_size=BATCH_SIZE,epochs=NBR
 
 
 
-# testing
+# testing -----------------------
 
 def ner(sentence):    
     predictions = []        
